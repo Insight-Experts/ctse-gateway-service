@@ -20,4 +20,6 @@ app.use("/user", proxy("http://localhost:5002"));
 app.use("/product", proxy("http://localhost:5003")); 
 
 const PORT = process.env.PORT || 5001;
-app.listen(PORT, console.log(`Server Started on port ${PORT}..`));
+const server = app.listen(PORT, () => console.log(`Server Started on port ${PORT}..`));
+
+module.exports = { app, server };
