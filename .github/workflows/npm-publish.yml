@@ -57,4 +57,4 @@ jobs:
         context: .
         file: ./dockerfile # Path to Dockerfile
         push: true
-        tags: insightexperts/gateway-service:v1.0.0.2
+        tags: ctse2024/gateway-service:v1.0.0.2
