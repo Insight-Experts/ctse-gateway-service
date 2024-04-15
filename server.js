@@ -5,6 +5,7 @@ const proxy = require("express-http-proxy");
 const app = express();
 
 dotenv.config();
+
 app.use(express.json());
 app.use("*", cors());
 
