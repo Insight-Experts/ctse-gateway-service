@@ -10,7 +10,6 @@ on:
 
 jobs:
   build-and-test:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -37,7 +36,6 @@ jobs:
       run: npm test
 
   Containerization:
-
     needs: build-and-test
     runs-on: ubuntu-latest
 
@@ -58,3 +56,38 @@ jobs:
         file: ./dockerfile # Path to Dockerfile
         push: true
         tags: ctse2024/gateway-service:v1.0.0.0
+
+  DeployToAKS:
+    needs: Containerization
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Install Azure CLI
+      run: |
+        curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+        
+    - name: 'Log into Azure using github secret AZURE_CREDENTIALS'
+      uses: Azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        enable-AzPSSession: true
+        
+    - name: 'Run az commands'
+      run: |
+        az account show
+        az group list
+        
+    - name: Set Azure subscription
+      run: az account set --subscription ${{ secrets.AZ_SUBSCRIPTION_ID }}
+      
+    - name: Set AKS context
+      run: az aks get-credentials --resource-group ${{ secrets.AZ_RESOURCE_GROUP }} --name ${{ secrets.AZ_CLUSTER }}
+    
+    - name: Deploy to AKS
+      run: kubectl apply -f kubernetes/
+      
+    - name: Get Service IP Address
+      run: kubectl get services
