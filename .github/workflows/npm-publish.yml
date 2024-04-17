@@ -74,5 +74,6 @@ jobs:
       run: kubectl apply -f kubernetes/gateway-deployment.yaml
     - name: Deploy gateway service to AKS
       run: kubectl apply -f kubernetes/gateway-service.yaml
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     - name: Get Service IP Address
       run: kubectl get services
