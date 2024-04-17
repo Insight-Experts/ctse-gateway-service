@@ -7,8 +7,6 @@ spec:
   selector:
     matchLabels:
       app: gateway
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
