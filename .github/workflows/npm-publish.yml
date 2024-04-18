@@ -46,7 +46,7 @@ jobs:
         context: .
         file: ./dockerfile # Path to Dockerfile
         push: true
-        tags: ctse2024/gateway-service:v1.0.0.0
+        tags: ctse2024/gateway-service:${{ github.run_id }} # Use a dynamic image tag
 
   DeployToAKS:
     needs: Containerization
@@ -71,11 +71,11 @@ jobs:
     - name: Set AKS context
       run: az aks get-credentials --resource-group ${{ secrets.AZ_RESOURCE_GROUP }} --name ${{ secrets.AZ_CLUSTER }}
     - name: Pull Docker Image
-      run: docker pull ctse2024/gateway-service:v1.0.0.0
+      run: docker pull ctse2024/gateway-service:${{ github.run_id }} # Use dynamic image tag
     - name: Set Kubernetes Files
       run: kubectl apply -f kubernetes/
     - name: Deploy to AKS
       run: |
-        kubectl set image deployment/gateway-deployment gateway=ctse2024/gateway-service:v1.0.0.0
+        kubectl set image deployment/gateway-deployment gateway=ctse2024/gateway-service:${{ github.run_id }} # Use dynamic image tag
     - name: Get Service IP Address
       run: kubectl get services
