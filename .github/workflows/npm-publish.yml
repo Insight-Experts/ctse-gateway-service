@@ -70,12 +70,10 @@ jobs:
       run: az account set --subscription ${{ secrets.AZ_SUBSCRIPTION_ID }}
     - name: Set AKS context
       run: az aks get-credentials --resource-group ${{ secrets.AZ_RESOURCE_GROUP }} --name ${{ secrets.AZ_CLUSTER }}
-    - name: Pull Docker Image
-      run: docker pull ctse2024/gateway-service:${{ github.run_id }} # Use dynamic image tag
-    - name: Set Kubernetes Files
-      run: kubectl apply -f kubernetes/
-    - name: Deploy to AKS
+    - name: Modify deployment YAML
       run: |
-        kubectl set image deployment/gateway-deployment gateway=ctse2024/gateway-service:${{ github.run_id }} # Use dynamic image tag
+        sed -i 's|ctse2024/gateway-service:TAG|ctse2024/gateway-service:${{ github.run_id }}|' kubernetes/gateway-deployment.yaml
+    - name: Deploy to AKS
+      run: kubectl apply -f kubernetes/
     - name: Get Service IP Address
-      run: kubectl get services
+      run: kubectl get service

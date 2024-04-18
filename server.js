@@ -17,8 +17,8 @@ app.get("/", (req, res) => {
 	This is the gateway which is directly exposed to the clients to retrieve data. For security purposes this gate way restricts direct access to the services.
 */
  
-app.use("/user", proxy("http://4.156.17.71")); 
-app.use("/product", proxy("http://4.156.113.182")); 
+app.use("/user", proxy("http://172.214.8.85")); 
+app.use("/product", proxy("http://4.255.89.70")); 
 
 const PORT = process.env.PORT || 5001;
 const server = app.listen(PORT, () => console.log(`Server Started on port ${PORT}..`));

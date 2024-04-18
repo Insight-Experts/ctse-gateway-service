@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: gateway
-        image: ctse2024/gateway-service:${{ github.run_id }}
+        image: ctse2024/gateway-service:TAG
         ports:
         - containerPort: 5001
