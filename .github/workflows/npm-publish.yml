@@ -9,21 +9,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  SonarQubeAnalysis:
-    runs-on: ubuntu-latest
-    name: SonarQube Analysis
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: SonarQube Scan
-        uses: sonarsource/sonarqube-scan-action@master
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-          SONAR_PROJECT_KEY: ctse
-          
   BuildandTest:
-    needs: SonarQubeAnalysis
     runs-on: ubuntu-latest
     strategy:
       matrix:
