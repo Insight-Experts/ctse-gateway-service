@@ -6,6 +6,8 @@ const app = express();
 
 dotenv.config();
 
+app.disable('x-powered-by');
+
 app.use(express.json());
 app.use("*", cors());
 
@@ -20,7 +22,20 @@ app.get("/", (req, res) => {
 app.use("/user", proxy("http://172.214.8.85")); 
 app.use("/product", proxy("http://4.255.89.70")); 
 
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Internal Server Error');
+});
+
 const PORT = process.env.PORT || 5001;
 const server = app.listen(PORT, () => console.log(`Server Started on port ${PORT}..`));
+
+process.on('SIGINT', () => {
+    console.log('Shutting down gracefully...');
+    server.close(() => {
+        console.log('Server closed.');
+        process.exit(0);
+    });
+});
 
 module.exports = { app, server };
