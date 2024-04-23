@@ -35,16 +35,6 @@ jobs:
       run: npm run build --if-present
     - name: Test
       run: npm test
-    - name: Install DepCheck
-      run: npm install -g depcheck
-    - name: Run DepCheck
-      run: depcheck --json > depcheck_report.json
-    - name: Upload DepCheck report
-      if: always()
-      uses: actions/upload-artifact@v2
-      with:
-        name: depcheck-report
-        path: depcheck_report.json
    
   SecretsScanning:
     needs: BuildandTest
