@@ -19,8 +19,8 @@ app.get("/", (req, res) => {
 	This is the gateway which is directly exposed to the clients to retrieve data. For security purposes this gate way restricts direct access to the services.
 */
  
-app.use("/user", proxy("http://172.214.8.85")); 
-app.use("/product", proxy("http://4.255.89.70")); 
+app.use("/user", proxy("http://4.255.118.230")); 
+app.use("/product", proxy("http://57.151.54.216")); 
 
 app.use((err, req, res, next) => {
     console.error(err.stack);
