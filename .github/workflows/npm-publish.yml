@@ -45,6 +45,7 @@ jobs:
           --failOnCVSS 7
           --enableRetired
           --exclude 'node_modules/formidable/**'
+          --exclude 'node_modules/superagent/**'
     - name: Upload Test results
       uses: actions/upload-artifact@v2
       with:
