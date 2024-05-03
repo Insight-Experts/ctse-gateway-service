@@ -38,13 +38,12 @@ jobs:
       id: Depcheck
       with:
         project: 'test'
-        path: '.' # Update this path if necessary
+        path: '.'
         format: 'HTML'
         out: 'reports'
         args: >
           --failOnCVSS 7
           --enableRetired
-          --exclude 'node_modules/formidable/**'
     - name: Upload Test results
       uses: actions/upload-artifact@v2
       with:
